@@ -6,4 +6,13 @@
 
 gem 'auto-correct', '0.1.0.pre0'
 
-
+after_initialize do
+  NewPostManager.class_eval do
+    def initialize(user, args)
+      @user = user
+      args[:title] = args[:title].dup.auto_correct! if args[:title].present?
+      args[:raw] = args[:raw].dup.auto_correct!
+      @args = args.delete_if { |_, v| v.nil? }
+    end
+  end
+end
