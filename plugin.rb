@@ -15,4 +15,14 @@ after_initialize do
       @args = args.delete_if { |_, v| v.nil? }
     end
   end
+
+  PostRevisor.class_eval do
+    alias_method :revise!, :old_revise!
+
+    def revise!(editor, fields, opts = {})
+      fields[:raw] = fields[:raw].dup.auto_correct!
+      fields[:title] = fields[:title].dup.auto_correct! if fields[:title].present?
+      old_revise!(editor, fields, opts)
+    end
+  end
 end
