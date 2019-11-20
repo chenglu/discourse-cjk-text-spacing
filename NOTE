@@ -1,0 +1,15 @@
+-- existing posts
+
+lib/tasks/posts.rake:
+1. rebake_post()-> post.rebake!(opts)
+2. rebake_match: Post.raw_match(pattern, type)
+
+use rebake_match and a pattern to rebake existing ones
+
+-- new topic/post
+
+lib/new_post_manager.rb: replace attr_reader :args here
+
+-- existing topic titles
+
+app/mmodels/topic.rb: title=(t) reset title here.
