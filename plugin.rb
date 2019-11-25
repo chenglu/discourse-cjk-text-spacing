@@ -17,7 +17,7 @@ after_initialize do
   end
 
   PostRevisor.class_eval do
-    alias_method :revise!, :old_revise!
+    alias_method :old_revise!, :revise!
 
     def revise!(editor, fields, opts = {})
       fields[:raw] = fields[:raw].dup.auto_correct!
