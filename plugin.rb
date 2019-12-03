@@ -20,7 +20,7 @@ after_initialize do
     alias_method :old_revise!, :revise!
 
     def revise!(editor, fields, opts = {})
-      fields[:raw] = fields[:raw].dup.auto_correct!
+      fields[:raw] = fields[:raw].dup.auto_correct! if fields[:raw].present?
       fields[:title] = fields[:title].dup.auto_correct! if fields[:title].present?
       old_revise!(editor, fields, opts)
     end
