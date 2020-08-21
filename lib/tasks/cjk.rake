@@ -5,4 +5,3 @@ task 'cjk:text_spacing' => :environment do
     puts r.auto_correct!
   end
 end
-

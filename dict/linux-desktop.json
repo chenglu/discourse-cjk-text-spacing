@@ -1,0 +1,13 @@
+{
+  "gnome": "GNOME",
+  "kde": "KDE",
+  "xfce": "Xfce",
+  "lxde": "LXDE",
+  "cinnamon": "Cinnamon",
+  "mate": "Mate",
+  "pantheon": "Pantheon",
+  "unity": "Unity",
+  "budgie": "Budgie",
+  "enlightenment": "Enlightenment",
+  "awesome": "Awesome"
+}
