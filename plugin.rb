@@ -17,20 +17,25 @@ after_initialize do
     alias_method :old_auto_correct!, :auto_correct!
     def auto_correct!
       # sometimes we meet frozen string like bot's message
-      unless frozen?
+      if frozen?
+        Discourse.warn('Plugin cjk-text-spacing: auto-correct gem crashed with frozen string error', string: self)
+      else
         begin
           old_auto_correct!
-        rescue => e
+        rescue StandardError => e
           Discourse.warn_exception(e, message: "Plugin cjk-text-spacing: auto-correct gem crashed with unknown error, string will remain unformatted: #{self}")
         end
-      else
-        Discourse.warn("Plugin cjk-text-spacing: auto-correct gem crashed with frozen string error", string: self)
       end
-      scan(/[A-Za-z]+/).each do |s|
-        if CJK_WORD_LIST.key?(s.downcase)
-          sub!(s, CJK_WORD_LIST[s.downcase])
-        else
-          Discourse.warn("Plugin cjk-text-spacing: unhandled word", word: s)
+
+      if self =~ /(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul})+/u
+        words = gsub(/\s+/m, ' ').gsub(/^\s+|\s+$/m, '').split(' ')
+        words.each do |s|
+          # cjk
+          next if s =~ /(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul})+/u
+          # url
+          next if s =~ %r{://.*?\.}
+
+          sub!(s, CJK_WORD_LIST[s.downcase]) if CJK_WORD_LIST.key?(s.downcase)
         end
       end
       self
