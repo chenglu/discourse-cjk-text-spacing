@@ -34,6 +34,8 @@ after_initialize do
           next if s =~ /(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul})+/u
           # url
           next if s =~ %r{://.*?\.}
+          # code block
+          next if s =~ /\`(.*)\`/m
 
           sub!(s, CJK_WORD_LIST[s.downcase]) if CJK_WORD_LIST.key?(s.downcase)
         end
