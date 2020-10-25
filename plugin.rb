@@ -47,6 +47,7 @@ after_initialize do
       @user = user
       args[:title] = args[:title].auto_correct! if args[:title].present?
       args[:raw] = args[:raw].auto_correct!
+      args[:raw] = args[:raw].gsub '** ', '**'.gsub ' **', '**'
       @args = args.delete_if { |_, v| v.nil? }
     end
   end
@@ -56,8 +57,7 @@ after_initialize do
 
     def revise!(editor, fields, opts = {})
       fields[:raw] = fields[:raw].auto_correct! if fields[:raw].present?
-      fields[:raw] = fields[:raw].gsub! '** ', '**'
-      fields[:raw] = fields[:raw].gsub! ' **', '**'
+      fields[:raw] = fields[:raw].gsub '** ', '**'.gsub ' **', '**' if fields[:raw].present?
       fields[:title] = fields[:title].auto_correct! if fields[:title].present?
       old_revise!(editor, fields, opts)
     end
