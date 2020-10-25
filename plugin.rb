@@ -58,8 +58,7 @@ after_initialize do
 
     def revise!(editor, fields, opts = {})
       fields[:raw] = fields[:raw].auto_correct! if fields[:raw].present?
-      fields[:raw] = fields[:raw].gsub '** ', '**'
-      fields[:raw] = fields[:raw].gsub ' **', '**'
+      fields[:raw] = fields[:raw].gsub('** ', '**').gsub(' **', '**') if fields[:raw].present?
       fields[:title] = fields[:title].auto_correct! if fields[:title].present?
       old_revise!(editor, fields, opts)
     end
